@@ -1,129 +1,222 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workout Tracker</title>
+  <title>Workout Tracker v1.0</title>
+  <meta charset="UTF-8">
   <style>
-    body{font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:16px;background:#f7f6f2;color:#222;}
-    h1{color:#01696f;margin:0 0 8px;}
-    .card{background:#fff;border:1px solid #d4d1ca;border-radius:12px;padding:16px;margin:12px 0;}
-    select,input,textarea,button{font:inherit;width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #ccc;}
-    button{background:#01696f;color:#fff;border:none;cursor:pointer;}
-    button.secondary{background:#e9efe9;color:#222;}
-    ul{margin:8px 0 0 20px;}
-    .small{font-size:14px;color:#666;}
+    body {
+      background: #000080;
+      color: #FFFF00;
+      font-family: "Times New Roman", Times, serif;
+      margin: 0;
+      padding: 10px;
+    }
+    a:link { color: #00FFFF; }
+    a:visited { color: #FF00FF; }
+    a:active { color: #FF0000; }
+    h1 {
+      font-family: "Comic Sans MS", "Arial", sans-serif;
+      color: #00FF00;
+      text-align: center;
+      text-shadow: 2px 2px #FF0000;
+      margin: 5px;
+    }
+    .container {
+      background: #C0C0C0;
+      color: #000000;
+      border: 3px outset #FFFFFF;
+      padding: 10px;
+      margin: 10px;
+    }
+    .card {
+      background: #FFFFCC;
+      border: 2px inset #808080;
+      padding: 8px;
+      margin: 8px 0;
+    }
+    select, input, textarea, button {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 14pt;
+      padding: 4px;
+      margin: 4px 0;
+      border: 2px groove #FFFFFF;
+    }
+    button {
+      background: #000080;
+      color: #FFFF00;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .tabs {
+      text-align: center;
+      margin: 10px 0;
+    }
     .tab {
-  padding: 12px 10px;
-  border: 2px solid #01696f;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #01696f;
-  font-weight: 700;
-}
-
-.tab.active {
-  background: #01696f;
-  color: #ffffff;
-  border-color: #01696f;
-}
-
-.tab:focus-visible {
-  outline: 3px solid #0a7c85;
-  outline-offset: 2px;
-}
-    .panel{display:none;}
-    .panel.active{display:block;}
-    .pill{display:inline-block;background:#d8e6e2;color:#01696f;padding:6px 10px;border-radius:999px;font-size:13px;margin-left:8px;}
-    pre{white-space:pre-wrap;background:#fafafa;border:1px solid #ddd;border-radius:10px;padding:12px;}
+      display: inline-block;
+      background: #008000;
+      color: #FFFFFF;
+      padding: 6px 12px;
+      margin: 2px;
+      border: 2px outset #FFFFFF;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .tab.active {
+      background: #FF0000;
+      border: 2px inset #FFFFFF;
+    }
+    .tab:hover {
+      background: #FFA500;
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .pill {
+      background: #FF00FF;
+      color: #FFFFFF;
+      padding: 2px 8px;
+      border: 2px outset #FFFFFF;
+      font-size: 12pt;
+    }
+    hr.neon {
+      border: 0;
+      height: 3px;
+      background: #00FF00;
+      box-shadow: 0 0 5px #00FF00;
+    }
+    .counter {
+      background: #000000;
+      color: #FF0000;
+      font-family: "Courier New", Courier, monospace;
+      padding: 4px 8px;
+      border: 2px inset #808080;
+      font-size: 14pt;
+    }
+    .under-construction {
+      text-align: center;
+      color: #FFFF00;
+      font-weight: bold;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
-  <h1>Workout Tracker</h1>
-  <div class="small">30-minute sessions, Sunday off</div>
-
-  <div class="card">
-    <label for="daySelect">Workout day</label>
-    <select id="daySelect"></select>
-    <div id="focusLine" class="small" style="margin-top:8px;"></div>
-    <div id="badge" class="pill">Ready</div>
-    <div style="display:flex;gap:8px;align-items:center;margin-top:10px;">
-      <div style="font-size:32px;font-weight:700;" id="timer">30:00</div>
-      <button id="timerBtn" style="width:auto;flex:1;">Start timer</button>
+  <marquee bgcolor="#FF0000" style="color: #FFFF00; font-weight: bold; font-size: 14pt;">
+    *** WELCOME TO MY WORKOUT TRACKER *** UNDER CONSTRUCTION *** COME BACK SOON ***
+  </marquee>
+  
+  <h1>★ ☆ WORKOUT TRACKER ☆ ★</h1>
+  <div style="text-align: center;">
+    <span class="counter">001847</span>
+  </div>
+  <div class="under-construction">
+    ⚠️ UNDER CONSTRUCTION ⚠️<br>
+    <font size="2">Last updated: May 1997</font>
+  </div>
+  
+  <div class="container">
+    <div class="card">
+      <b>Workout day:</b><br>
+      <select id="daySelect" style="width: 100%;"></select>
+      <div id="focusLine" style="margin-top: 8px; color: #0000FF;"></div>
+      <span id="badge" class="pill">READY!!!</span>
+      <div style="margin-top: 10px;">
+        <font size="5" face="Courier New"><b><span id="timer">30:00</span></b></font>
+        <button id="timerBtn" style="width: 100%;">START TIMER!!!</button>
+      </div>
     </div>
   </div>
-
+  
   <div class="tabs">
-    <button class="tab active" data-panel="today">Today</button>
-    <button class="tab" data-panel="stretch">Stretch</button>
-    <button class="tab" data-panel="log">Log</button>
-    <button class="tab" data-panel="week">Week</button>
+    <span class="tab active" data-panel="today">TODAY</span>
+    <span class="tab" data-panel="stretch">STRETCH</span>
+    <span class="tab" data-panel="log">LOG</span>
+    <span class="tab" data-panel="week">WEEK</span>
   </div>
-
+  
   <div id="panel-today" class="panel active">
-    <div class="card">
-      <h2>Workout blocks</h2>
-      <div id="blocks"></div>
-    </div>
-    <div class="card">
-      <h2>Quick checks</h2>
-      <label><input type="checkbox" id="warmupCheck"> Warm-up done</label><br>
-      <label><input type="checkbox" id="gripCheck"> Grip check done</label><br>
-      <label><input type="checkbox" id="stretchCheck"> Stretching done</label><br>
-      <label><input type="checkbox" id="loggedCheck"> Logged</label>
+    <div class="container">
+      <div class="card">
+        <h2>::: WORKOUT BLOCKS :::</h2>
+        <div id="blocks"></div>
+      </div>
+      <div class="card">
+        <h2>::: QUICK CHECKS :::</h2>
+        <label><input type="checkbox" id="warmupCheck"> Warm-up done</label><br>
+        <label><input type="checkbox" id="gripCheck"> Grip check done</label><br>
+        <label><input type="checkbox" id="stretchCheck"> Stretching done</label><br>
+        <label><input type="checkbox" id="loggedCheck"> Logged</label>
+      </div>
     </div>
   </div>
-
+  
   <div id="panel-stretch" class="panel">
-    <div class="card">
-      <h2>Cool-down</h2>
-      <div id="stretchFocus" class="small"></div>
-      <ul id="stretchList"></ul>
+    <div class="container">
+      <div class="card">
+        <h2>::: COOL-DOWN :::</h2>
+        <div id="stretchFocus"></div>
+        <ul id="stretchList"></ul>
+      </div>
     </div>
   </div>
-
+  
   <div id="panel-log" class="panel">
-    <div class="card">
-      <h2>Quick log</h2>
-      <input id="exercise1" placeholder="Exercise 1">
-      <input id="result1" placeholder="Sets x reps x load">
-      <input id="exercise2" placeholder="Exercise 2">
-      <input id="result2" placeholder="Sets x reps x load">
-      <input id="exercise3" placeholder="Exercise 3">
-      <input id="result3" placeholder="Sets x reps x load">
-      <select id="recovery">
-        <option>Great</option><option selected>Good</option><option>Fair</option><option>Poor</option>
-      </select>
-      <textarea id="notes" placeholder="Notes"></textarea>
-      <button id="previewBtn" class="secondary">Preview</button>
-      <button id="downloadBtn">Download text</button>
-      <input id="emailTo" placeholder="Email recipient (optional)">
-      <input id="smsTo" placeholder="Text number (optional)">
-      <button id="emailBtn" class="secondary">Send email</button>
-      <button id="smsBtn" class="secondary">Send text</button>
-    </div>
-    <div class="card">
-      <h2>Preview</h2>
-      <pre id="preview">Your workout note will appear here.</pre>
+    <div class="container">
+      <div class="card">
+        <h2>::: QUICK LOG :::</h2>
+        <input id="exercise1" placeholder="Exercise 1" style="width: 100%;">
+        <input id="result1" placeholder="Sets x reps x load" style="width: 100%;">
+        <input id="exercise2" placeholder="Exercise 2" style="width: 100%;">
+        <input id="result2" placeholder="Sets x reps x load" style="width: 100%;">
+        <input id="exercise3" placeholder="Exercise 3" style="width: 100%;">
+        <input id="result3" placeholder="Sets x reps x load" style="width: 100%;">
+        <select id="recovery" style="width: 100%;">
+          <option>Great</option><option selected>Good</option><option>Fair</option><option>Poor</option>
+        </select>
+        <textarea id="notes" placeholder="Notes" style="width: 100%; height: 60px;"></textarea>
+        <button id="previewBtn">Preview</button>
+        <button id="downloadBtn">Download text</button>
+        <input id="emailTo" placeholder="Email recipient (optional)" style="width: 100%;">
+        <input id="smsTo" placeholder="Text number (optional)" style="width: 100%;">
+        <button id="emailBtn">Send email</button>
+        <button id="smsBtn">Send text</button>
+      </div>
+      <div class="card">
+        <h2>::: PREVIEW :::</h2>
+        <pre id="preview" style="background: #000000; color: #00FF00; padding: 8px;">Your workout note will appear here...</pre>
+      </div>
     </div>
   </div>
-
+  
   <div id="panel-week" class="panel">
-    <div class="card">
-      <h2>Weekly plan</h2>
-      <div id="weekPlan"></div>
+    <div class="container">
+      <div class="card">
+        <h2>::: WEEKLY PLAN :::</h2>
+        <div id="weekPlan"></div>
+      </div>
     </div>
   </div>
-
+  
+  <hr class="neon">
+  <div style="text-align: center; color: #FFFF00;">
+    <font size="2">
+      <a href="#">[Home]</a> | 
+      <a href="#">[About Me]</a> | 
+      <a href="#">[Links]</a> | 
+      <a href="#">[Email Me]</a>
+    </font>
+    <br><br>
+    <font size="1">Best viewed in Netscape Navigator 3.0 at 800x600</font>
+  </div>
+  
 <script>
 const plan = [
-  {day:'Monday', focus:'Full Body A', badge:'Lift', blocks:['Squat block: goblet squat or back squat, 3 x 8-10','Press block: dumbbell or machine press, 3 x 8-10','Row block: cable or chest-supported row, 3 x 8-10'], stretches:['Hip flexor stretch — 30-45 sec each side','Hamstring hinge and reach — 30 sec each side','Doorway chest stretch — 30-45 sec each side','Thoracic reach-through — 30 sec each side'], stretchFocus:'Hips, hamstrings, chest, and upper back', logExercises:['Goblet squat or back squat','Dumbbell or machine press','Cable or chest-supported row']},
-  {day:'Tuesday', focus:'Conditioning + Core', badge:'Condition', blocks:['20 min moderate cardio','Dead bug, Pallof press, plank'], stretches:['Easy walk cooldown — 2-3 min','Hip flexor stretch — 30 sec each side','Child pose breathing — 4-5 breaths'], stretchFocus:'Light whole-body mobility', logExercises:['Cardio machine','Dead bug','Pallof press or plank']},
-  {day:'Wednesday', focus:'Full Body B', badge:'Lift', blocks:['Hinge block: RDL or trap-bar deadlift, 3 x 8','Vertical press block: DB shoulder press or landmine press','Vertical pull block: pulldown or assisted pull-up'], stretches:['Hamstring hinge and reach — 30-45 sec each side','Child pose with arm sweep — 8-10 reps','Wall slide — 3 reps of 5 sec each','Lat stretch from child pose — 30 sec each side'], stretchFocus:'Hamstrings, lats, shoulders, and thoracic spine', logExercises:['Romanian deadlift or trap-bar deadlift','DB shoulder press or landmine press','Pulldown or assisted pull-up']},
-  {day:'Thursday', focus:'Recovery + Movement', badge:'Recover', blocks:['20 min easy cardio','10 min mobility flow'], stretches:['Hip flexor stretch — 30 sec each side','Thoracic rotation — 5 reps each side','Hamstring floss — 5-8 reps each side'], stretchFocus:'Easy mobility only', logExercises:['Easy cardio','Mobility flow','Recovery note']},
-  {day:'Friday', focus:'Full Body C', badge:'Lift', blocks:['Split squat/lunge block: 3 x 8 per side','Incline press block: 3 x 10-12','Row block: cable row or one-arm row, 3 x 10-12'], stretches:['Hip flexor stretch with reach — 30 sec each side','Side pretzel — 30 sec each side','Doorway or kneeling door stretch — 30-60 sec each side','Thoracic reach-through — 30 sec each side'], stretchFocus:'Hip flexors, glutes, chest, and rear shoulder', logExercises:['Reverse lunge or split squat','Incline dumbbell press','Cable row or one-arm row']},
-  {day:'Saturday', focus:'Performance / Weak Point', badge:'Build', blocks:['15 min intervals or easy conditioning','15 min technique or accessory work'], stretches:['Easy cooldown walk — 2-3 min','Pick 2 mobility drills based on tight areas'], stretchFocus:'Choose what feels tight', logExercises:['Conditioning block','Technique block','Accessory or weak point']},
-  {day:'Sunday', focus:'Off', badge:'Off', blocks:['Rest or easy walk only'], stretches:['Optional easy walk','Light stretching only if it feels good'], stretchFocus:'Recovery day', logExercises:['Rest day','Optional walk','Recovery note']}
+  {day:'Monday', focus:'Full Body A', badge:'LIFT', blocks:['Squat block: goblet squat or back squat, 3 x 8-10','Press block: dumbbell or machine press, 3 x 8-10','Row block: cable or chest-supported row, 3 x 8-10'], stretches:['Hip flexor stretch - 30-45 sec each side','Hamstring hinge and reach - 30 sec each side','Doorway chest stretch - 30-45 sec each side','Thoracic reach-through - 30 sec each side'], stretchFocus:'Hips, hamstrings, chest, and upper back', logExercises:['Goblet squat or back squat','Dumbbell or machine press','Cable or chest-supported row']},
+  {day:'Tuesday', focus:'Conditioning + Core', badge:'CARDIO', blocks:['20 min moderate cardio','Dead bug, Pallof press, plank'], stretches:['Easy walk cooldown - 2-3 min','Hip flexor stretch - 30 sec each side','Child pose breathing - 4-5 breaths'], stretchFocus:'Light whole-body mobility', logExercises:['Cardio machine','Dead bug','Pallof press or plank']},
+  {day:'Wednesday', focus:'Full Body B', badge:'LIFT', blocks:['Hinge block: RDL or trap-bar deadlift, 3 x 8','Vertical press block: DB shoulder press or landmine press','Vertical pull block: pulldown or assisted pull-up'], stretches:['Hamstring hinge and reach - 30-45 sec each side','Child pose with arm sweep - 8-10 reps','Wall slide - 3 reps of 5 sec each','Lat stretch from child pose - 30 sec each side'], stretchFocus:'Hamstrings, lats, shoulders, and thoracic spine', logExercises:['Romanian deadlift or trap-bar deadlift','DB shoulder press or landmine press','Pulldown or assisted pull-up']},
+  {day:'Thursday', focus:'Recovery + Movement', badge:'REST', blocks:['20 min easy cardio','10 min mobility flow'], stretches:['Hip flexor stretch - 30 sec each side','Thoracic rotation - 5 reps each side','Hamstring floss - 5-8 reps each side'], stretchFocus:'Easy mobility only', logExercises:['Easy cardio','Mobility flow','Recovery note']},
+  {day:'Friday', focus:'Full Body C', badge:'LIFT', blocks:['Split squat/lunge block: 3 x 8 per side','Incline press block: 3 x 10-12','Row block: cable row or one-arm row, 3 x 10-12'], stretches:['Hip flexor stretch with reach - 30 sec each side','Side pretzel - 30 sec each side','Doorway or kneeling door stretch - 30-60 sec each side','Thoracic reach-through - 30 sec each side'], stretchFocus:'Hip flexors, glutes, chest, and rear shoulder', logExercises:['Reverse lunge or split squat','Incline dumbbell press','Cable row or one-arm row']},
+  {day:'Saturday', focus:'Performance / Weak Point', badge:'BUILD', blocks:['15 min intervals or easy conditioning','15 min technique or accessory work'], stretches:['Easy cooldown walk - 2-3 min','Pick 2 mobility drills based on tight areas'], stretchFocus:'Choose what feels tight', logExercises:['Conditioning block','Technique block','Accessory or weak point']},
+  {day:'Sunday', focus:'Off', badge:'OFF', blocks:['Rest or easy walk only'], stretches:['Optional easy walk','Light stretching only if it feels good'], stretchFocus:'Recovery day', logExercises:['Rest day','Optional walk','Recovery note']}
 ];
 const daySelect = document.getElementById('daySelect');
 const blocks = document.getElementById('blocks');
@@ -136,16 +229,16 @@ const timer = document.getElementById('timer');
 let remaining = 1800, running = false, interval = null;
 
 plan.forEach(p => {
-  const o = document.createElement('option'); o.value = p.day; o.textContent = p.day + ' — ' + p.focus; daySelect.appendChild(o);
-  const box = document.createElement('div'); box.className='card'; box.innerHTML = '<strong>'+p.day+'</strong><div class="small">'+p.focus+'</div><ul>'+p.blocks.map(b=>'<li>'+b+'</li>').join('')+'</ul>'; weekPlan.appendChild(box);
+  const o = document.createElement('option'); o.value = p.day; o.textContent = p.day + ' - ' + p.focus; daySelect.appendChild(o);
+  const box = document.createElement('div'); box.className='card'; box.innerHTML = '<b>'+p.day+'</b><br><font size="2">'+p.focus+'</font><ul>'+p.blocks.map(b=>'<li>'+b+'</li>').join('')+'</ul>'; weekPlan.appendChild(box);
 });
 
 function render(day) {
   const p = plan.find(x => x.day === day) || plan[0];
-  focusLine.textContent = p.focus;
+  focusLine.textContent = 'Focus: ' + p.focus;
   badge.textContent = p.badge;
-  blocks.innerHTML = '<ul>' + p.blocks.map(b => '<li>' + b + '</li>').join('') + '</ul>';
-  stretchFocus.textContent = p.stretchFocus;
+  blocks.innerHTML = '<ul>' + p.blocks.map(b => '<li><b>'+b+'</b></li>').join('') + '</ul>';
+  stretchFocus.textContent = 'Stretch focus: ' + p.stretchFocus;
   stretchList.innerHTML = p.stretches.map(s => '<li>' + s + '</li>').join('');
   document.getElementById('exercise1').value = p.logExercises[0] || '';
   document.getElementById('exercise2').value = p.logExercises[1] || '';
@@ -164,16 +257,16 @@ document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', (
 
 document.getElementById('timerBtn').addEventListener('click', () => {
   if (!running) {
-    running = true; document.getElementById('timerBtn').textContent = 'Pause';
+    running = true; document.getElementById('timerBtn').textContent = 'PAUSE!!!';
     interval = setInterval(() => { if (remaining > 0) { remaining--; const m = String(Math.floor(remaining/60)).padStart(2,'0'); const s = String(remaining%60).padStart(2,'0'); timer.textContent = m + ':' + s; } }, 1000);
   } else {
-    running = false; clearInterval(interval); document.getElementById('timerBtn').textContent = 'Start timer';
+    running = false; clearInterval(interval); document.getElementById('timerBtn').textContent = 'START TIMER!!!';
   }
 });
 
 function buildLogText() {
   return [
-    'Workout Tracker Log',
+    '=== WORKOUT TRACKER LOG ===',
     'Day: ' + daySelect.value,
     'Focus: ' + focusLine.textContent,
     'Recovery: ' + document.getElementById('recovery').value,
@@ -186,7 +279,9 @@ function buildLogText() {
     'Exercise 2: ' + document.getElementById('exercise2').value + ' | ' + document.getElementById('result2').value,
     'Exercise 3: ' + document.getElementById('exercise3').value + ' | ' + document.getElementById('result3').value,
     '',
-    'Notes: ' + document.getElementById('notes').value
+    'Notes: ' + document.getElementById('notes').value,
+    '',
+    '=== END OF LOG ==='
   ].join('\n');
 }
 
@@ -197,11 +292,11 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
 });
 document.getElementById('emailBtn').addEventListener('click', () => {
   const to = encodeURIComponent(document.getElementById('emailTo').value || '');
-  window.location.href = `mailto:${to}?subject=${encodeURIComponent('Workout log - ' + daySelect.value)}&body=${encodeURIComponent(buildLogText())}`;
+  window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent('Workout log - ' + daySelect.value) + '&body=' + encodeURIComponent(buildLogText());
 });
 document.getElementById('smsBtn').addEventListener('click', () => {
   const number = encodeURIComponent(document.getElementById('smsTo').value || '');
-  window.location.href = `sms:${number}?body=${encodeURIComponent(buildLogText())}`;
+  window.location.href = 'sms:' + number + '?body=' + encodeURIComponent(buildLogText());
 });
 </script>
 </body>
