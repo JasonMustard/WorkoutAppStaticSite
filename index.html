@@ -13,9 +13,25 @@
     button.secondary{background:#e9efe9;color:#222;}
     ul{margin:8px 0 0 20px;}
     .small{font-size:14px;color:#666;}
-    .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:sticky;bottom:0;background:#f7f6f2;padding:8px 0;}
-    .tab{padding:10px;border:1px solid #ccc;border-radius:999px;background:#fff;}
-    .tab.active{background:#01696f;color:#fff;border-color:#01696f;}
+    .tab {
+  padding: 12px 10px;
+  border: 2px solid #01696f;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #01696f;
+  font-weight: 700;
+}
+
+.tab.active {
+  background: #01696f;
+  color: #ffffff;
+  border-color: #01696f;
+}
+
+.tab:focus-visible {
+  outline: 3px solid #0a7c85;
+  outline-offset: 2px;
+}
     .panel{display:none;}
     .panel.active{display:block;}
     .pill{display:inline-block;background:#d8e6e2;color:#01696f;padding:6px 10px;border-radius:999px;font-size:13px;margin-left:8px;}
