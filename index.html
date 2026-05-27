@@ -3,206 +3,237 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <title>Workout Tracker</title>
   <style>
-    body{font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:16px;background:#f7f6f2;color:#222;}
-    h1{color:#01696f;margin:0 0 8px;}
-    .card{background:#fff;border:1px solid #d4d1ca;border-radius:12px;padding:16px;margin:12px 0;}
-    select,input,textarea,button{font:inherit;width:100%;box-sizing:border-box;margin:6px 0;padding:12px;border-radius:10px;border:1px solid #ccc;}
-    button{background:#01696f;color:#fff;border:none;cursor:pointer;}
-    button.secondary{background:#e9efe9;color:#222;}
-    ul{margin:8px 0 0 20px;}
-    .small{font-size:14px;color:#666;}
-    .tab {
-  padding: 12px 10px;
-  border: 2px solid #01696f;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #01696f;
-  font-weight: 700;
-}
-
-.tab.active {
-  background: #01696f;
-  color: #ffffff;
-  border-color: #01696f;
-}
-
-.tab:focus-visible {
-  outline: 3px solid #0a7c85;
-  outline-offset: 2px;
-}
-    .panel{display:none;}
-    .panel.active{display:block;}
-    .pill{display:inline-block;background:#d8e6e2;color:#01696f;padding:6px 10px;border-radius:999px;font-size:13px;margin-left:8px;}
-    pre{white-space:pre-wrap;background:#fafafa;border:1px solid #ddd;border-radius:10px;padding:12px;}
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 640px; margin: 0 auto; padding: 16px; background: #f5f5f5; color: #1a1a1a; -webkit-tap-highlight-color: transparent; }
+    h1 { font-size: 26px; font-weight: 700; margin: 0 0 6px; }
+    .subtitle { font-size: 14px; color: #666; margin-bottom: 16px; }
+    .card { background: #fff; border: 1px solid #e2e2e2; border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+    .label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #666; margin-bottom: 8px; }
+    select, input, button { font: inherit; }
+    select { width: 100%; padding: 14px; border: 1px solid #d0d0d0; border-radius: 10px; background: #fff; font-size: 16px; }
+    .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #666; margin: 0 0 12px; }
+    .line { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .line:last-child { border-bottom: none; }
+    .text { flex: 1; font-size: 15px; }
+    .block-name { font-size: 16px; font-weight: 700; margin: 0 0 8px; }
+    .rep-note { font-size: 13px; color: #777; margin-left: 8px; font-weight: 500; }
+    .set-row { display: grid; grid-template-columns: 26px 46px 1fr 60px; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #f2f2f2; }
+    .set-row:last-child { border-bottom: none; }
+    .set-row input[type="checkbox"] { width: 22px; height: 22px; accent-color: #2e7d32; }
+    .set-label { font-size: 14px; font-weight: 600; color: #666; }
+    .wheel-wrap { position: relative; height: 170px; overflow: hidden; border-radius: 14px; background: linear-gradient(to bottom, rgba(245,245,245,1), rgba(255,255,255,1) 18%, rgba(255,255,255,1) 82%, rgba(245,245,245,1)); border: 1px solid #dfe3df; }
+    .wheel-wrap::before, .wheel-wrap::after { content: ''; position: absolute; left: 0; right: 0; height: 56px; pointer-events: none; z-index: 2; }
+    .wheel-wrap::before { top: 0; background: linear-gradient(to bottom, rgba(245,245,245,.98), rgba(245,245,245,0)); }
+    .wheel-wrap::after { bottom: 0; background: linear-gradient(to top, rgba(245,245,245,.98), rgba(245,245,245,0)); }
+    .wheel-center { position: absolute; left: 0; right: 0; top: 50%; height: 38px; margin-top: -19px; border-top: 1px solid rgba(46,125,50,.25); border-bottom: 1px solid rgba(46,125,50,.25); background: rgba(46,125,50,.05); z-index: 1; }
+    .wheel { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 66px 0; }
+    .wheel::-webkit-scrollbar { display: none; }
+    .wheel-item { height: 38px; display: flex; align-items: center; justify-content: center; scroll-snap-align: center; color: #888; font-size: 15px; font-weight: 600; }
+    .wheel-item.selected { color: #2e7d32; font-size: 18px; font-weight: 800; }
+    .complete-btn { width: 100%; padding: 18px; font-size: 17px; font-weight: 700; border: none; border-radius: 14px; background: #2e7d32; color: #fff; box-shadow: 0 2px 10px rgba(46,125,50,.28); }
+    .complete-btn:active { transform: scale(.99); }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); align-items: center; justify-content: center; padding: 16px; z-index: 999; }
+    .modal { width: 100%; max-width: 520px; background: #fff; border-radius: 16px; padding: 18px; border: 1px solid #e2e2e2; box-shadow: 0 14px 40px rgba(0,0,0,.22); }
+    .modal h2 { margin: 0 0 6px; }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .modal-actions.single { grid-template-columns: 1fr; }
+    .secondary { background: #f2f2f2; color: #1a1a1a; border: 1px solid #ddd; }
+    .primary { background: #2e7d32; color: #fff; border: none; }
+    .small { font-size: 13px; color: #777; }
   </style>
 </head>
 <body>
   <h1>Workout Tracker</h1>
-  <div class="small">30-minute sessions, Sunday off</div>
+  <div class="subtitle">Mobile-first logging for the gym</div>
 
   <div class="card">
-    <label for="daySelect">Workout day</label>
+    <label class="label" for="daySelect">Workout day</label>
     <select id="daySelect"></select>
-    <div id="focusLine" class="small" style="margin-top:8px;"></div>
-    <div id="badge" class="pill">Ready</div>
-    <div style="display:flex;gap:8px;align-items:center;margin-top:10px;">
-      <div style="font-size:32px;font-weight:700;" id="timer">30:00</div>
-      <button id="timerBtn" style="width:auto;flex:1;">Start timer</button>
-    </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" data-panel="today">Today</button>
-    <button class="tab" data-panel="stretch">Stretch</button>
-    <button class="tab" data-panel="log">Log</button>
-    <button class="tab" data-panel="week">Week</button>
+  <div class="card">
+    <div class="section-title">Warm-up</div>
+    <div id="warmupList"></div>
   </div>
 
-  <div id="panel-today" class="panel active">
-    <div class="card">
-      <h2>Workout blocks</h2>
-      <div id="blocks"></div>
-    </div>
-    <div class="card">
-      <h2>Quick checks</h2>
-      <label><input type="checkbox" id="warmupCheck"> Warm-up done</label><br>
-      <label><input type="checkbox" id="gripCheck"> Grip check done</label><br>
-      <label><input type="checkbox" id="stretchCheck"> Stretching done</label><br>
-      <label><input type="checkbox" id="loggedCheck"> Logged</label>
-    </div>
+  <div id="blocksContainer"></div>
+
+  <div class="card">
+    <div class="section-title">Cooldown</div>
+    <div id="cooldownList"></div>
   </div>
 
-  <div id="panel-stretch" class="panel">
-    <div class="card">
-      <h2>Cool-down</h2>
-      <div id="stretchFocus" class="small"></div>
-      <ul id="stretchList"></ul>
-    </div>
-  </div>
+  <button class="complete-btn" id="completeBtn">Complete</button>
 
-  <div id="panel-log" class="panel">
-    <div class="card">
-      <h2>Quick log</h2>
-      <input id="exercise1" placeholder="Exercise 1">
-      <input id="result1" placeholder="Sets x reps x load">
-      <input id="exercise2" placeholder="Exercise 2">
-      <input id="result2" placeholder="Sets x reps x load">
-      <input id="exercise3" placeholder="Exercise 3">
-      <input id="result3" placeholder="Sets x reps x load">
-      <select id="recovery">
-        <option>Great</option><option selected>Good</option><option>Fair</option><option>Poor</option>
-      </select>
-      <textarea id="notes" placeholder="Notes"></textarea>
-      <button id="previewBtn" class="secondary">Preview</button>
-      <button id="downloadBtn">Download text</button>
-      <input id="emailTo" placeholder="Email recipient (optional)">
-      <input id="smsTo" placeholder="Text number (optional)">
-      <button id="emailBtn" class="secondary">Send email</button>
-      <button id="smsBtn" class="secondary">Send text</button>
-    </div>
-    <div class="card">
-      <h2>Preview</h2>
-      <pre id="preview">Your workout note will appear here.</pre>
-    </div>
-  </div>
-
-  <div id="panel-week" class="panel">
-    <div class="card">
-      <h2>Weekly plan</h2>
-      <div id="weekPlan"></div>
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <h2>Workout complete</h2>
+      <div class="subtitle" style="margin-bottom:0;">Send the session log or copy it first.</div>
+      <div class="modal-actions">
+        <button class="primary" id="sendEmailBtn">Send email</button>
+        <button class="secondary" id="copyTextBtn">Copy text</button>
+      </div>
+      <div class="modal-actions single">
+        <button class="secondary" id="closeModalBtn">Close</button>
+      </div>
     </div>
   </div>
 
 <script>
 const plan = [
-  {day:'Monday', focus:'Full Body A', badge:'Lift', blocks:['Squat block: goblet squat or back squat, 3 x 8-10','Press block: dumbbell or machine press, 3 x 8-10','Row block: cable or chest-supported row, 3 x 8-10'], stretches:['Hip flexor stretch — 30-45 sec each side','Hamstring hinge and reach — 30 sec each side','Doorway chest stretch — 30-45 sec each side','Thoracic reach-through — 30 sec each side'], stretchFocus:'Hips, hamstrings, chest, and upper back', logExercises:['Goblet squat or back squat','Dumbbell or machine press','Cable or chest-supported row']},
-  {day:'Tuesday', focus:'Conditioning + Core', badge:'Condition', blocks:['20 min moderate cardio','Dead bug, Pallof press, plank'], stretches:['Easy walk cooldown — 2-3 min','Hip flexor stretch — 30 sec each side','Child pose breathing — 4-5 breaths'], stretchFocus:'Light whole-body mobility', logExercises:['Cardio machine','Dead bug','Pallof press or plank']},
-  {day:'Wednesday', focus:'Full Body B', badge:'Lift', blocks:['Hinge block: RDL or trap-bar deadlift, 3 x 8','Vertical press block: DB shoulder press or landmine press','Vertical pull block: pulldown or assisted pull-up'], stretches:['Hamstring hinge and reach — 30-45 sec each side','Child pose with arm sweep — 8-10 reps','Wall slide — 3 reps of 5 sec each','Lat stretch from child pose — 30 sec each side'], stretchFocus:'Hamstrings, lats, shoulders, and thoracic spine', logExercises:['Romanian deadlift or trap-bar deadlift','DB shoulder press or landmine press','Pulldown or assisted pull-up']},
-  {day:'Thursday', focus:'Recovery + Movement', badge:'Recover', blocks:['20 min easy cardio','10 min mobility flow'], stretches:['Hip flexor stretch — 30 sec each side','Thoracic rotation — 5 reps each side','Hamstring floss — 5-8 reps each side'], stretchFocus:'Easy mobility only', logExercises:['Easy cardio','Mobility flow','Recovery note']},
-  {day:'Friday', focus:'Full Body C', badge:'Lift', blocks:['Split squat/lunge block: 3 x 8 per side','Incline press block: 3 x 10-12','Row block: cable row or one-arm row, 3 x 10-12'], stretches:['Hip flexor stretch with reach — 30 sec each side','Side pretzel — 30 sec each side','Doorway or kneeling door stretch — 30-60 sec each side','Thoracic reach-through — 30 sec each side'], stretchFocus:'Hip flexors, glutes, chest, and rear shoulder', logExercises:['Reverse lunge or split squat','Incline dumbbell press','Cable row or one-arm row']},
-  {day:'Saturday', focus:'Performance / Weak Point', badge:'Build', blocks:['15 min intervals or easy conditioning','15 min technique or accessory work'], stretches:['Easy cooldown walk — 2-3 min','Pick 2 mobility drills based on tight areas'], stretchFocus:'Choose what feels tight', logExercises:['Conditioning block','Technique block','Accessory or weak point']},
-  {day:'Sunday', focus:'Off', badge:'Off', blocks:['Rest or easy walk only'], stretches:['Optional easy walk','Light stretching only if it feels good'], stretchFocus:'Recovery day', logExercises:['Rest day','Optional walk','Recovery note']}
+  { day:'Monday', focus:'Full Body A', warmup:['5 min easy walk or bike','Arm circles — 10 each direction','Leg swings — 10 each leg','Bodyweight squats — 15 reps','Push-ups — 10 reps'], blocks:[{name:'Goblet squat or back squat', reps:'8-10', sets:3},{name:'Dumbbell or machine press', reps:'8-10', sets:3},{name:'Cable or chest-supported row', reps:'8-10', sets:3}], cooldown:['3 min box breathing','Hip flexor stretch — 30 sec each side','Hamstring stretch — 30 sec each side','Doorway chest stretch — 30 sec each side'] },
+  { day:'Tuesday', focus:'Conditioning + Core', warmup:['3 min easy walk','High knees — 30 sec','Butt kicks — 30 sec','Torso twists — 15 each side'], blocks:[{name:'Cardio machine (moderate)', reps:'20 min', sets:1},{name:'Dead bug', reps:'10 each side', sets:3},{name:'Pallof press or plank', reps:'30-45 sec', sets:3}], cooldown:['4 min nasal breathing','Child pose — 45 sec','Cobra or sphinx — 30 sec','Supine twist — 30 sec each side'] },
+  { day:'Wednesday', focus:'Full Body B', warmup:['5 min easy walk or bike','Hip circles — 10 each direction','Band pull-aparts — 15 reps','Glute bridges — 15 reps','Cat-cow stretch — 10 reps'], blocks:[{name:'RDL or trap-bar deadlift', reps:'8', sets:3},{name:'DB shoulder press or landmine press', reps:'8-10', sets:3},{name:'Pulldown or assisted pull-up', reps:'8-10', sets:3}], cooldown:['3 min box breathing','Half-kneeling hip flexor stretch — 30 sec each side','Lat stretch — 30 sec each side','Thoracic rotation — 5 each side'] },
+  { day:'Thursday', focus:'Recovery + Movement', warmup:['5 min easy walk','Full body stretch — 2 min','Joint rotations — 1 min'], blocks:[{name:'Easy cardio', reps:'20 min', sets:1},{name:'Mobility flow', reps:'10 min', sets:1}], cooldown:['5 min slow breathing','Child pose — 45 sec','Cat-cow — 8 reps','Legs up the wall — 2 min'] },
+  { day:'Friday', focus:'Full Body C', warmup:['5 min easy walk or bike','Walking lunges — 10 each leg','Incline push-ups — 10 reps','Band rows — 15 reps','Plank — 30 sec'], blocks:[{name:'Reverse lunge or split squat', reps:'8 each side', sets:3},{name:'Incline dumbbell press', reps:'10-12', sets:3},{name:'Cable row or one-arm row', reps:'10-12', sets:3}], cooldown:['3 min box breathing','Quad stretch — 30 sec each side','Chest stretch — 30 sec each side','Pigeon or figure-4 stretch — 30 sec each side'] },
+  { day:'Saturday', focus:'Performance / Weak Point', warmup:['5 min easy cardio','Dynamic stretches — 3 min','Light activation — 2 min'], blocks:[{name:'Intervals or conditioning', reps:'15 min', sets:1},{name:'Technique or accessory work', reps:'15 min', sets:1}], cooldown:['4 min nasal breathing','Pick 2 tight-area stretches','Seated twist — 30 sec each side'] },
+  { day:'Sunday', focus:'Off', warmup:['Optional easy walk — 10 min','Light stretching — 5 min'], blocks:[{name:'Rest day', reps:'-', sets:1}], cooldown:['Optional 3 min breathing','Light stretching if needed'] }
 ];
+
 const daySelect = document.getElementById('daySelect');
-const blocks = document.getElementById('blocks');
-const stretchList = document.getElementById('stretchList');
-const stretchFocus = document.getElementById('stretchFocus');
-const focusLine = document.getElementById('focusLine');
-const badge = document.getElementById('badge');
-const weekPlan = document.getElementById('weekPlan');
-const timer = document.getElementById('timer');
-let remaining = 1800, running = false, interval = null;
+const warmupList = document.getElementById('warmupList');
+const blocksContainer = document.getElementById('blocksContainer');
+const cooldownList = document.getElementById('cooldownList');
+const completeBtn = document.getElementById('completeBtn');
+const modalBackdrop = document.getElementById('modalBackdrop');
+const sendEmailBtn = document.getElementById('sendEmailBtn');
+const copyTextBtn = document.getElementById('copyTextBtn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+let latestLog = '';
+
+const weights = Array.from({length: 61}, (_, i) => i * 5);
 
 plan.forEach(p => {
-  const o = document.createElement('option'); o.value = p.day; o.textContent = p.day + ' — ' + p.focus; daySelect.appendChild(o);
-  const box = document.createElement('div'); box.className='card'; box.innerHTML = '<strong>'+p.day+'</strong><div class="small">'+p.focus+'</div><ul>'+p.blocks.map(b=>'<li>'+b+'</li>').join('')+'</ul>'; weekPlan.appendChild(box);
+  const o = document.createElement('option');
+  o.value = p.day;
+  o.textContent = p.day + ' — ' + p.focus;
+  daySelect.appendChild(o);
 });
+
+function checkId(bi, si){ return `block${bi}_set${si}`; }
+function wheelId(bi, si){ return `block${bi}_set${si}_wheel`; }
+function labelId(bi, si){ return `block${bi}_set${si}_label`; }
+
+function renderWheel(bi, si) {
+  return `
+    <div class="wheel-wrap">
+      <div class="wheel-center"></div>
+      <div class="wheel" id="${wheelId(bi, si)}">
+        ${weights.map(w => `<div class="wheel-item" data-value="${w}">${w}</div>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function bindWheel(wheelEl, labelEl) {
+  const items = [...wheelEl.querySelectorAll('.wheel-item')];
+  const selectNearest = () => {
+    const center = wheelEl.scrollTop + wheelEl.clientHeight / 2;
+    let best = items[0], bestDist = Infinity;
+    items.forEach(item => {
+      const mid = item.offsetTop + item.offsetHeight / 2;
+      const dist = Math.abs(mid - center);
+      if (dist < bestDist) { bestDist = dist; best = item; }
+    });
+    items.forEach(i => i.classList.remove('selected'));
+    best.classList.add('selected');
+    labelEl.textContent = best.dataset.value;
+  };
+  wheelEl.addEventListener('scroll', () => {
+    clearTimeout(wheelEl._t);
+    wheelEl._t = setTimeout(selectNearest, 80);
+  });
+  setTimeout(() => {
+    const target = items.find(i => i.dataset.value === '0') || items[0];
+    wheelEl.scrollTop = target.offsetTop - wheelEl.clientHeight / 2 + target.offsetHeight / 2;
+    selectNearest();
+  }, 0);
+}
 
 function render(day) {
   const p = plan.find(x => x.day === day) || plan[0];
-  focusLine.textContent = p.focus;
-  badge.textContent = p.badge;
-  blocks.innerHTML = '<ul>' + p.blocks.map(b => '<li>' + b + '</li>').join('') + '</ul>';
-  stretchFocus.textContent = p.stretchFocus;
-  stretchList.innerHTML = p.stretches.map(s => '<li>' + s + '</li>').join('');
-  document.getElementById('exercise1').value = p.logExercises[0] || '';
-  document.getElementById('exercise2').value = p.logExercises[1] || '';
-  document.getElementById('exercise3').value = p.logExercises[2] || '';
+  warmupList.innerHTML = p.warmup.map(w => `<div class="line"><div class="text">${w}</div></div>`).join('');
+  blocksContainer.innerHTML = p.blocks.map((block, bi) => `
+    <div class="card">
+      <div class="block-name">${block.name}<span class="rep-note">${block.reps}</span></div>
+      ${Array.from({length:block.sets}, (_, si) => `
+        <div class="set-row">
+          <input type="checkbox" id="${checkId(bi, si)}">
+          <div class="set-label">Set ${si+1}</div>
+          <div>${renderWheel(bi, si)}</div>
+          <div class="weight-value" id="${labelId(bi, si)}">0</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+  cooldownList.innerHTML = p.cooldown.map(s => `<div class="line"><div class="text">${s}</div></div>`).join('');
+
+  p.blocks.forEach((block, bi) => {
+    for (let si = 0; si < block.sets; si++) {
+      const wheelEl = document.getElementById(wheelId(bi, si));
+      const labelEl = document.getElementById(labelId(bi, si));
+      bindWheel(wheelEl, labelEl);
+    }
+  });
 }
 
 daySelect.addEventListener('change', () => render(daySelect.value));
 render('Monday');
 
-document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
-}));
-
-document.getElementById('timerBtn').addEventListener('click', () => {
-  if (!running) {
-    running = true; document.getElementById('timerBtn').textContent = 'Pause';
-    interval = setInterval(() => { if (remaining > 0) { remaining--; const m = String(Math.floor(remaining/60)).padStart(2,'0'); const s = String(remaining%60).padStart(2,'0'); timer.textContent = m + ':' + s; } }, 1000);
-  } else {
-    running = false; clearInterval(interval); document.getElementById('timerBtn').textContent = 'Start timer';
-  }
-});
-
-function buildLogText() {
-  return [
-    'Workout Tracker Log',
-    'Day: ' + daySelect.value,
-    'Focus: ' + focusLine.textContent,
-    'Recovery: ' + document.getElementById('recovery').value,
-    'Warm-up done: ' + document.getElementById('warmupCheck').checked,
-    'Grip check done: ' + document.getElementById('gripCheck').checked,
-    'Stretching done: ' + document.getElementById('stretchCheck').checked,
-    'Logged done: ' + document.getElementById('loggedCheck').checked,
-    '',
-    'Exercise 1: ' + document.getElementById('exercise1').value + ' | ' + document.getElementById('result1').value,
-    'Exercise 2: ' + document.getElementById('exercise2').value + ' | ' + document.getElementById('result2').value,
-    'Exercise 3: ' + document.getElementById('exercise3').value + ' | ' + document.getElementById('result3').value,
-    '',
-    'Notes: ' + document.getElementById('notes').value
-  ].join('\n');
+function selectedWeight(bi, si) {
+  const label = document.getElementById(labelId(bi, si));
+  return label ? label.textContent : '0';
 }
 
-document.getElementById('previewBtn').addEventListener('click', () => document.getElementById('preview').textContent = buildLogText());
-document.getElementById('downloadBtn').addEventListener('click', () => {
-  const blob = new Blob([buildLogText()], {type:'text/plain'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'workout-log.txt'; a.click(); URL.revokeObjectURL(a.href);
+function buildLogText() {
+  const p = plan.find(x => x.day === daySelect.value);
+  let log = 'WORKOUT LOG\n';
+  log += 'Date: ' + new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'short', day:'numeric' }) + '\n';
+  log += 'Day: ' + daySelect.value + ' — ' + p.focus + '\n\n';
+  log += '--- WARM-UP ---\n';
+  p.warmup.forEach(w => { log += '[ ] ' + w + '\n'; });
+  log += '\n--- WORKOUT ---\n';
+  let totalSets = 0, completedSets = 0;
+  p.blocks.forEach((block, bi) => {
+    log += '\n' + block.name + ' (' + block.reps + ')\n';
+    for (let si = 0; si < block.sets; si++) {
+      const checked = document.getElementById(checkId(bi, si)).checked;
+      const weight = selectedWeight(bi, si);
+      log += (checked ? '  [✓]' : '  [ ]') + ' Set ' + (si+1) + ': ' + weight + ' lbs\n';
+      totalSets++;
+      if (checked) completedSets++;
+    }
+  });
+  log += '\n--- COOLDOWN ---\n';
+  (p.cooldown || []).forEach(s => { log += '[ ] ' + s + '\n'; });
+  log += '\n--- SUMMARY ---\n';
+  log += 'Sets complete: ' + completedSets + '/' + totalSets + '\n';
+  return log;
+}
+
+completeBtn.addEventListener('click', () => {
+  latestLog = buildLogText();
+  modalBackdrop.style.display = 'flex';
 });
-document.getElementById('emailBtn').addEventListener('click', () => {
-  const to = encodeURIComponent(document.getElementById('emailTo').value || '');
-  window.location.href = `mailto:${to}?subject=${encodeURIComponent('Workout log - ' + daySelect.value)}&body=${encodeURIComponent(buildLogText())}`;
+
+sendEmailBtn.addEventListener('click', () => {
+  const subject = encodeURIComponent('Workout Log - ' + daySelect.value);
+  const body = encodeURIComponent(latestLog || buildLogText());
+  window.location.href = 'mailto:jdmustard@icloud.com?subject=' + subject + '&body=' + body;
 });
-document.getElementById('smsBtn').addEventListener('click', () => {
-  const number = encodeURIComponent(document.getElementById('smsTo').value || '');
-  window.location.href = `sms:${number}?body=${encodeURIComponent(buildLogText())}`;
+
+copyTextBtn.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(latestLog || buildLogText()); copyTextBtn.textContent = 'Copied'; setTimeout(() => copyTextBtn.textContent = 'Copy text', 1200); }
+  catch(e) { alert('Copy failed on this device.'); }
 });
+
+closeModalBtn.addEventListener('click', () => modalBackdrop.style.display = 'none');
+modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) modalBackdrop.style.display = 'none'; });
 </script>
 </body>
 </html>
