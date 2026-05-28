@@ -91,13 +91,75 @@
     select, input, button { font: inherit; }
 
     /* Right margin vertical toggle aligned with Workout day card */
-    .top-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      column-gap: 10px;
-      align-items: center;
-      margin-bottom: 14px;
-    }
+.top-row {
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); /* full-width on mobile */
+}
+
+.top-row-card {
+  margin-bottom: 0;
+}
+
+/* Inside the card: card content + pill side by side on wider screens */
+.top-row-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10px;
+  align-items: stretch; /* pill matches the height of the content column */
+}
+
+.top-row-main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Vertical pill */
+.vertical-toggle {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding: 10px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: rgba(0,0,0,0.03);
+  backdrop-filter: blur(10px);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--accent-strong);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;   /* same height as the Workout day content */
+}
+
+/* On wider screens, allow the top-row to have a distinct column for the card+pill block */
+@media (min-width: 480px) {
+  .top-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* On very narrow screens, if you ever want the pill to stack under the card instead of squeezing,
+   you could do this (optional):
+
+@media (max-width: 360px) {
+  .top-row-inner {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+  .vertical-toggle {
+    writing-mode: horizontal-tb;
+    letter-spacing: .2em;
+    padding: 6px 12px;
+    align-self: center;
+    height: auto;
+  }
+}
+*/
 
     .vertical-toggle-wrap {
       display: flex;
