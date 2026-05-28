@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="system">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,32 +8,139 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <title>Workout Tracker</title>
   <style>
+    :root {
+      --bg: #fbfbf8;
+      --fg: #20242f;
+      --card-bg: rgba(255,255,255,.92);
+      --card-border: rgba(132,140,160,.16);
+      --card-shadow: rgba(23,27,40,.18);
+      --accent: #5b5fd6;
+      --accent-soft: #6a7287;
+      --accent-strong: #566079;
+      --divider: rgba(132,140,160,.10);
+      --input-border: rgba(132,140,160,.16);
+      --btn-shadow: rgba(91,95,214,.18);
+      --modal-backdrop: rgba(24,28,38,.48);
+      --secondary-bg: #f2f2f2;
+      --secondary-fg: #1d2433;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root[data-theme="system"] {
+        --bg: #050711;
+        --fg: #f4f4fb;
+        --card-bg: rgba(17,20,38,.96);
+        --card-border: rgba(119,126,167,.4);
+        --card-shadow: rgba(0,0,0,.65);
+        --accent: #9ba5ff;
+        --accent-soft: #a7afcf;
+        --accent-strong: #dde1ff;
+        --divider: rgba(119,126,167,.3);
+        --input-border: rgba(119,126,167,.5);
+        --btn-shadow: rgba(29,35,96,.65);
+        --modal-backdrop: rgba(0,0,0,.72);
+        --secondary-bg: #161a2e;
+        --secondary-fg: #f4f4fb;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #050711;
+      --fg: #f4f4fb;
+      --card-bg: rgba(17,20,38,.96);
+      --card-border: rgba(119,126,167,.4);
+      --card-shadow: rgba(0,0,0,.65);
+      --accent: #9ba5ff;
+      --accent-soft: #a7afcf;
+      --accent-strong: #dde1ff;
+      --divider: rgba(119,126,167,.3);
+      --input-border: rgba(119,126,167,.5);
+      --btn-shadow: rgba(29,35,96,.65);
+      --modal-backdrop: rgba(0,0,0,.72);
+      --secondary-bg: #161a2e;
+      --secondary-fg: #f4f4fb;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #fbfbf8;
+      --fg: #20242f;
+      --card-bg: rgba(255,255,255,.92);
+      --card-border: rgba(132,140,160,.16);
+      --card-shadow: rgba(23,27,40,.18);
+      --accent: #5b5fd6;
+      --accent-soft: #6a7287;
+      --accent-strong: #566079;
+      --divider: rgba(132,140,160,.10);
+      --input-border: rgba(132,140,160,.16);
+      --btn-shadow: rgba(91,95,214,.18);
+      --modal-backdrop: rgba(24,28,38,.48);
+      --secondary-bg: #f2f2f2;
+      --secondary-fg: #1d2433;
+    }
+
     * { box-sizing: border-box; }
     body {
       font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       max-width: 640px;
       margin: 0 auto;
       padding: 16px;
-      background: #fbfbf8;
-      color: #20242f;
+      background: var(--bg);
+      color: var(--fg);
       -webkit-tap-highlight-color: transparent;
     }
     select, input, button { font: inherit; }
+
+    .top-bar {
+      margin-bottom: 10px;
+    }
+
+    .top-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      background: rgba(0,0,0,0.03);
+      backdrop-filter: blur(10px);
+    }
+
+    .top-bar-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+    }
+
+    .top-bar-toggle {
+      padding: 4px 8px;
+      font-size: 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--accent-strong);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     select {
       width: 100%;
       padding: 14px;
-      border: 1px solid rgba(132,140,160,.16);
+      border: 1px solid var(--input-border);
       border-radius: 10px;
       background: #ffffff;
       font-size: 16px;
     }
     .card {
-      background: rgba(255,255,255,.92);
-      border: 1px solid rgba(132,140,160,.16);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 14px;
-      box-shadow: 0 1px 3px rgba(23,27,40,.18);
+      box-shadow: 0 1px 3px var(--card-shadow);
     }
     .label {
       display: block;
@@ -41,7 +148,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: .06em;
-      color: #5b5fd6;
+      color: var(--accent);
       margin-bottom: 8px;
     }
     .section-title {
@@ -49,7 +156,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: .06em;
-      color: #5b5fd6;
+      color: var(--accent);
       margin: 0 0 12px;
     }
     .line {
@@ -57,7 +164,7 @@
       align-items: center;
       gap: 12px;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(132,140,160,.10);
+      border-bottom: 1px solid var(--divider);
     }
     .line:last-child { border-bottom: none; }
     .text { flex: 1; font-size: 15px; }
@@ -65,12 +172,12 @@
       font-size: 16px;
       font-weight: 700;
       margin: 0 0 4px;
-      color: #5b5fd6;
+      color: var(--accent);
       letter-spacing: .01em;
     }
     .rep-note {
       font-size: 13px;
-      color: #6a7287;
+      color: var(--accent-soft);
       margin-left: 8px;
       font-weight: 500;
     }
@@ -79,12 +186,13 @@
       padding: 8px 9px;
       margin-bottom: 8px;
       border-radius: 8px;
-      border: 1px solid rgba(132,140,160,.16);
+      border: 1px solid var(--input-border);
       font-size: 14px;
-      color: #20242f;
+      color: var(--fg);
+      background: transparent;
     }
     .exercise-note-input::placeholder {
-      color: #6a7287;
+      color: var(--accent-soft);
       opacity: 0.7;
     }
     .set-row {
@@ -93,18 +201,18 @@
       gap: 10px;
       align-items: center;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(132,140,160,.10);
+      border-bottom: 1px solid var(--divider);
     }
     .set-row:last-child { border-bottom: none; }
     .set-row input[type="checkbox"] {
       width: 22px;
       height: 22px;
-      accent-color: #5b5fd6;
+      accent-color: var(--accent);
     }
     .set-label {
       font-size: 14px;
       font-weight: 600;
-      color: #566079;
+      color: var(--accent-strong);
     }
     .set-inputs {
       display: grid;
@@ -116,12 +224,14 @@
       width: 100%;
       padding: 10px 8px;
       border-radius: 8px;
-      border: 1px solid rgba(132,140,160,.16);
+      border: 1px solid var(--input-border);
       font-size: 15px;
+      background: transparent;
+      color: var(--fg);
     }
     .set-weight-input::placeholder,
     .set-reps-input::placeholder {
-      color: #6a7287;
+      color: var(--accent-soft);
       opacity: 0.7;
     }
     .complete-btn {
@@ -131,16 +241,16 @@
       font-weight: 700;
       border: none;
       border-radius: 14px;
-      background: linear-gradient(135deg, #5b5fd6, #7b86ff);
+      background: linear-gradient(135deg, var(--accent), #7b86ff);
       color: #ffffff;
-      box-shadow: 0 2px 10px rgba(91,95,214,.18);
+      box-shadow: 0 2px 10px var(--btn-shadow);
     }
     .complete-btn:active { transform: scale(.99); }
     .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(24,28,38,.48);
+      background: var(--modal-backdrop);
       align-items: center;
       justify-content: center;
       padding: 16px;
@@ -149,11 +259,12 @@
     .modal {
       width: 100%;
       max-width: 520px;
-      background: #ffffff;
+      background: var(--card-bg);
       border-radius: 16px;
       padding: 18px;
-      border: 1px solid rgba(132,140,160,.16);
-      box-shadow: 0 14px 40px rgba(24,28,38,.16);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 14px 40px var(--card-shadow);
+      color: var(--fg);
     }
     .modal h2 { margin: 0 0 6px; }
     .modal-actions {
@@ -164,19 +275,28 @@
     }
     .modal-actions.single { grid-template-columns: 1fr; }
     .secondary {
-      background: #f2f2f2;
-      color: #1d2433;
-      border: 1px solid rgba(132,140,160,.16);
+      background: var(--secondary-bg);
+      color: var(--secondary-fg);
+      border: 1px solid var(--card-border);
     }
     .primary {
-      background: linear-gradient(135deg, #5b5fd6, #7b86ff);
+      background: linear-gradient(135deg, var(--accent), #7b86ff);
       color: #ffffff;
       border: 1px solid rgba(91,95,214,.18);
     }
-    .small { font-size: 13px; color: #6a7287; }
+    .small { font-size: 13px; color: var(--accent-soft); }
   </style>
 </head>
 <body>
+
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <div class="top-bar-title">Workout</div>
+      <button id="themeToggle" class="top-bar-toggle" aria-label="Toggle dark mode">
+        <span id="themeIcon">⚙️</span>
+      </button>
+    </div>
+  </div>
 
   <div class="card">
     <label class="label" for="daySelect">Workout day</label>
@@ -231,6 +351,8 @@ const modalBackdrop = document.getElementById('modalBackdrop');
 const sendEmailBtn = document.getElementById('sendEmailBtn');
 const copyTextBtn = document.getElementById('copyTextBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
 let latestLog = '';
 
 plan.forEach(p => {
@@ -360,6 +482,38 @@ copyTextBtn.addEventListener('click', async () => {
 closeModalBtn.addEventListener('click', () => modalBackdrop.style.display = 'none');
 modalBackdrop.addEventListener('click', (e) => {
   if (e.target === modalBackdrop) modalBackdrop.style.display = 'none';
+});
+
+/* Dark mode toggle: system → dark → light → system */
+const htmlEl = document.documentElement;
+const storedTheme = localStorage.getItem('theme');
+
+if (storedTheme === 'dark' || storedTheme === 'light' || storedTheme === 'system') {
+  htmlEl.setAttribute('data-theme', storedTheme);
+}
+
+function updateToggleUI() {
+  const current = htmlEl.getAttribute('data-theme') || 'system';
+  if (current === 'system') {
+    themeIcon.textContent = '⚙️';  // follows device
+  } else if (current === 'dark') {
+    themeIcon.textContent = '🌙';
+  } else {
+    themeIcon.textContent = '☀️';
+  }
+}
+
+updateToggleUI();
+
+themeToggle.addEventListener('click', () => {
+  const current = htmlEl.getAttribute('data-theme') || 'system';
+  let next = 'system';
+  if (current === 'system') next = 'dark';
+  else if (current === 'dark') next = 'light';
+  else next = 'system';
+  htmlEl.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  updateToggleUI();
 });
 </script>
 </body>
