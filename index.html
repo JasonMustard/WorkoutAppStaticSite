@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="system">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,7 +26,7 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      :root[data-theme="system"] {
+      :root[data-theme="light"][data-init="true"] {
         --bg: #050711;
         --fg: #f4f4fb;
         --card-bg: rgba(17,20,38,.96);
@@ -61,7 +61,7 @@
       --secondary-fg: #f4f4fb;
     }
 
-    :root[data-theme="light"] {
+    :root[data-theme="light"]:not([data-init]) {
       --bg: #fbfbf8;
       --fg: #20242f;
       --card-bg: rgba(255,255,255,.92);
@@ -92,38 +92,34 @@
 
     .top-bar {
       margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
     }
 
     .top-bar-inner {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 6px 10px;
+      justify-content: center;
+      padding: 6px 22px;
       border-radius: 999px;
       border: 1px solid var(--card-border);
       background: rgba(0,0,0,0.03);
       backdrop-filter: blur(10px);
-    }
-
-    .top-bar-title {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--accent-strong);
+      min-width: 96px;
     }
 
     .top-bar-toggle {
-      padding: 4px 8px;
-      font-size: 16px;
-      border-radius: 999px;
-      border: 1px solid transparent;
+      padding: 0;
+      border: none;
       background: transparent;
       color: var(--accent-strong);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      text-align: center;
+      width: 100%;
     }
 
     select {
@@ -291,9 +287,8 @@
 
   <div class="top-bar">
     <div class="top-bar-inner">
-      <div class="top-bar-title">Workout</div>
-      <button id="themeToggle" class="top-bar-toggle" aria-label="Toggle dark mode">
-        <span id="themeIcon">⚙️</span>
+      <button id="themeToggle" class="top-bar-toggle" aria-label="Toggle theme">
+        LIGHT
       </button>
     </div>
   </div>
@@ -352,7 +347,6 @@ const sendEmailBtn = document.getElementById('sendEmailBtn');
 const copyTextBtn = document.getElementById('copyTextBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
 const themeToggle = document.getElementById('themeToggle');
-const themeIcon = document.getElementById('themeIcon');
 let latestLog = '';
 
 plan.forEach(p => {
@@ -484,36 +478,28 @@ modalBackdrop.addEventListener('click', (e) => {
   if (e.target === modalBackdrop) modalBackdrop.style.display = 'none';
 });
 
-/* Dark mode toggle: system → dark → light → system */
+/* Light / Dark toggle (no system option) */
 const htmlEl = document.documentElement;
 const storedTheme = localStorage.getItem('theme');
 
-if (storedTheme === 'dark' || storedTheme === 'light' || storedTheme === 'system') {
+if (storedTheme === 'dark' || storedTheme === 'light') {
   htmlEl.setAttribute('data-theme', storedTheme);
 }
+htmlEl.setAttribute('data-init', 'true');
 
-function updateToggleUI() {
-  const current = htmlEl.getAttribute('data-theme') || 'system';
-  if (current === 'system') {
-    themeIcon.textContent = '⚙️';  // follows device
-  } else if (current === 'dark') {
-    themeIcon.textContent = '🌙';
-  } else {
-    themeIcon.textContent = '☀️';
-  }
+function updateToggleText() {
+  const current = htmlEl.getAttribute('data-theme') || 'light';
+  themeToggle.textContent = current === 'dark' ? 'DARK' : 'LIGHT';
 }
 
-updateToggleUI();
+updateToggleText();
 
 themeToggle.addEventListener('click', () => {
-  const current = htmlEl.getAttribute('data-theme') || 'system';
-  let next = 'system';
-  if (current === 'system') next = 'dark';
-  else if (current === 'dark') next = 'light';
-  else next = 'system';
+  const current = htmlEl.getAttribute('data-theme') || 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
   htmlEl.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
-  updateToggleUI();
+  updateToggleText();
 });
 </script>
 </body>
