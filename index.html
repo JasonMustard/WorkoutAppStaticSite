@@ -90,36 +90,38 @@
     }
     select, input, button { font: inherit; }
 
-    .top-bar {
-      margin-bottom: 10px;
+    /* Left margin vertical toggle */
+    .layout-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 10px;
+      align-items: flex-start;
+    }
+
+    .vertical-toggle-wrap {
       display: flex;
       justify-content: center;
     }
 
-    .top-bar-inner {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px 22px;
+    .vertical-toggle {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      padding: 10px 6px;
       border-radius: 999px;
       border: 1px solid var(--card-border);
       background: rgba(0,0,0,0.03);
       backdrop-filter: blur(10px);
-      min-width: 96px;
-    }
-
-    .top-bar-toggle {
-      padding: 0;
-      border: none;
-      background: transparent;
-      color: var(--accent-strong);
-      cursor: pointer;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: .16em;
       text-transform: uppercase;
       text-align: center;
-      width: 100%;
+      color: var(--accent-strong);
+      cursor: pointer;
+      min-height: 80px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     select {
@@ -285,32 +287,34 @@
 </head>
 <body>
 
-  <div class="top-bar">
-    <div class="top-bar-inner">
-      <button id="themeToggle" class="top-bar-toggle" aria-label="Toggle theme">
+  <div class="layout-row">
+    <div class="vertical-toggle-wrap">
+      <button id="themeToggle" class="vertical-toggle" aria-label="Toggle theme">
         LIGHT
       </button>
     </div>
+
+    <div>
+      <div class="card">
+        <label class="label" for="daySelect">Workout day</label>
+        <select id="daySelect"></select>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Warm-up</div>
+        <div id="warmupList"></div>
+      </div>
+
+      <div id="blocksContainer"></div>
+
+      <div class="card">
+        <div class="section-title">Cooldown</div>
+        <div id="cooldownList"></div>
+      </div>
+
+      <button class="complete-btn" id="completeBtn">Complete</button>
+    </div>
   </div>
-
-  <div class="card">
-    <label class="label" for="daySelect">Workout day</label>
-    <select id="daySelect"></select>
-  </div>
-
-  <div class="card">
-    <div class="section-title">Warm-up</div>
-    <div id="warmupList"></div>
-  </div>
-
-  <div id="blocksContainer"></div>
-
-  <div class="card">
-    <div class="section-title">Cooldown</div>
-    <div id="cooldownList"></div>
-  </div>
-
-  <button class="complete-btn" id="completeBtn">Complete</button>
 
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal">
@@ -478,7 +482,7 @@ modalBackdrop.addEventListener('click', (e) => {
   if (e.target === modalBackdrop) modalBackdrop.style.display = 'none';
 });
 
-/* Light / Dark toggle (no system option) */
+/* Light / Dark toggle (no system option), vertical text */
 const htmlEl = document.documentElement;
 const storedTheme = localStorage.getItem('theme');
 
