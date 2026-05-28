@@ -90,17 +90,18 @@
     }
     select, input, button { font: inherit; }
 
-    /* Left margin vertical toggle */
-    .layout-row {
+    /* Right margin vertical toggle aligned with Workout day card */
+    .top-row {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 1fr auto;
       column-gap: 10px;
-      align-items: flex-start;
+      align-items: stretch;
+      margin-bottom: 14px;
     }
 
     .vertical-toggle-wrap {
       display: flex;
-      justify-content: center;
+      align-items: stretch;
     }
 
     .vertical-toggle {
@@ -118,10 +119,11 @@
       text-align: center;
       color: var(--accent-strong);
       cursor: pointer;
-      min-height: 80px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      height: 100%;
+      min-height: 80px;
     }
 
     select {
@@ -287,34 +289,31 @@
 </head>
 <body>
 
-  <div class="layout-row">
+  <div class="top-row">
+    <div class="card">
+      <label class="label" for="daySelect">Workout day</label>
+      <select id="daySelect"></select>
+    </div>
     <div class="vertical-toggle-wrap">
       <button id="themeToggle" class="vertical-toggle" aria-label="Toggle theme">
         LIGHT
       </button>
     </div>
-
-    <div>
-      <div class="card">
-        <label class="label" for="daySelect">Workout day</label>
-        <select id="daySelect"></select>
-      </div>
-
-      <div class="card">
-        <div class="section-title">Warm-up</div>
-        <div id="warmupList"></div>
-      </div>
-
-      <div id="blocksContainer"></div>
-
-      <div class="card">
-        <div class="section-title">Cooldown</div>
-        <div id="cooldownList"></div>
-      </div>
-
-      <button class="complete-btn" id="completeBtn">Complete</button>
-    </div>
   </div>
+
+  <div class="card">
+    <div class="section-title">Warm-up</div>
+    <div id="warmupList"></div>
+  </div>
+
+  <div id="blocksContainer"></div>
+
+  <div class="card">
+    <div class="section-title">Cooldown</div>
+    <div id="cooldownList"></div>
+  </div>
+
+  <button class="complete-btn" id="completeBtn">Complete</button>
 
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal">
@@ -482,7 +481,7 @@ modalBackdrop.addEventListener('click', (e) => {
   if (e.target === modalBackdrop) modalBackdrop.style.display = 'none';
 });
 
-/* Light / Dark toggle (no system option), vertical text */
+/* Light / Dark toggle (vertical text, no system) */
 const htmlEl = document.documentElement;
 const storedTheme = localStorage.getItem('theme');
 
