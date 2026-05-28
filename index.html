@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="system">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,44 +8,280 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <title>Workout Tracker</title>
   <style>
+    :root {
+      --bg: #fbfbf8;
+      --fg: #20242f;
+      --card-bg: rgba(255,255,255,.92);
+      --card-border: rgba(132,140,160,.16);
+      --card-shadow: rgba(23,27,40,.18);
+      --accent: #5b5fd6;
+      --accent-soft: #6a7287;
+      --accent-strong: #566079;
+      --divider: rgba(132,140,160,.10);
+      --input-border: rgba(132,140,160,.16);
+      --btn-shadow: rgba(91,95,214,.18);
+      --modal-backdrop: rgba(24,28,38,.48);
+      --secondary-bg: #f2f2f2;
+      --secondary-fg: #1d2433;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root[data-theme="system"] {
+        --bg: #050711;
+        --fg: #f4f4fb;
+        --card-bg: rgba(17,20,38,.96);
+        --card-border: rgba(119,126,167,.4);
+        --card-shadow: rgba(0,0,0,.65);
+        --accent: #9ba5ff;
+        --accent-soft: #a7afcf;
+        --accent-strong: #dde1ff;
+        --divider: rgba(119,126,167,.3);
+        --input-border: rgba(119,126,167,.5);
+        --btn-shadow: rgba(29,35,96,.65);
+        --modal-backdrop: rgba(0,0,0,.72);
+        --secondary-bg: #161a2e;
+        --secondary-fg: #f4f4fb;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #050711;
+      --fg: #f4f4fb;
+      --card-bg: rgba(17,20,38,.96);
+      --card-border: rgba(119,126,167,.4);
+      --card-shadow: rgba(0,0,0,.65);
+      --accent: #9ba5ff;
+      --accent-soft: #a7afcf;
+      --accent-strong: #dde1ff;
+      --divider: rgba(119,126,167,.3);
+      --input-border: rgba(119,126,167,.5);
+      --btn-shadow: rgba(29,35,96,.65);
+      --modal-backdrop: rgba(0,0,0,.72);
+      --secondary-bg: #161a2e;
+      --secondary-fg: #f4f4fb;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #fbfbf8;
+      --fg: #20242f;
+      --card-bg: rgba(255,255,255,.92);
+      --card-border: rgba(132,140,160,.16);
+      --card-shadow: rgba(23,27,40,.18);
+      --accent: #5b5fd6;
+      --accent-soft: #6a7287;
+      --accent-strong: #566079;
+      --divider: rgba(132,140,160,.10);
+      --input-border: rgba(132,140,160,.16);
+      --btn-shadow: rgba(91,95,214,.18);
+      --modal-backdrop: rgba(24,28,38,.48);
+      --secondary-bg: #f2f2f2;
+      --secondary-fg: #1d2433;
+    }
+
     * { box-sizing: border-box; }
-    body { font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 640px; margin: 0 auto; padding: 16px; background: #fbfbf8; color: #20242f; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+    }
     select, input, button { font: inherit; }
-    select { width: 100%; padding: 14px; border: 1px solid rgba(132,140,160,.16); border-radius: 10px; background: #ffffff; font-size: 16px; }
-    .card { background: rgba(255,255,255,.92); border: 1px solid rgba(132,140,160,.16); border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(23,27,40,.18); }
-    .label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #6c5ce7; margin-bottom: 8px; }
-    .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #6c5ce7; margin: 0 0 12px; }
-    .line { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(132,140,160,.10); }
+
+    .theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 12px;
+      z-index: 1000;
+      padding: 6px 9px;
+      font-size: 16px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      background: rgba(0,0,0,0.03);
+      backdrop-filter: blur(8px);
+      color: var(--accent-strong);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .theme-toggle span.mode-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      opacity: 0.8;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      background: #ffffff;
+      font-size: 16px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px var(--card-shadow);
+    }
+    .label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--accent);
+      margin: 0 0 12px;
+    }
+    .line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--divider);
+    }
     .line:last-child { border-bottom: none; }
     .text { flex: 1; font-size: 15px; }
-    .block-name { font-size: 16px; font-weight: 700; margin: 0 0 8px; color: #6c5ce7; letter-spacing: .01em; }
-    .rep-note { font-size: 13px; color: #5a6784; margin-left: 8px; font-weight: 500; }
-    .set-row { display: grid; grid-template-columns: 26px 46px 1fr 60px; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(132,140,160,.10); }
+    .block-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 4px;
+      color: var(--accent);
+      letter-spacing: .01em;
+    }
+    .rep-note {
+      font-size: 13px;
+      color: var(--accent-soft);
+      margin-left: 8px;
+      font-weight: 500;
+    }
+    .exercise-note-input {
+      width: 100%;
+      padding: 8px 9px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--input-border);
+      font-size: 14px;
+      color: var(--fg);
+      background: transparent;
+    }
+    .exercise-note-input::placeholder {
+      color: var(--accent-soft);
+      opacity: 0.7;
+    }
+    .set-row {
+      display: grid;
+      grid-template-columns: 26px 46px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--divider);
+    }
     .set-row:last-child { border-bottom: none; }
-    .set-row input[type="checkbox"] { width: 22px; height: 22px; accent-color: #5b5fd6; }
-    .set-label { font-size: 14px; font-weight: 600; color: #566079; }
-    .wheel-wrap { position: relative; height: 170px; overflow: hidden; border-radius: 14px; background: linear-gradient(to bottom, rgba(251,251,248,1), rgba(255,255,255,1) 18%, rgba(255,255,255,1) 82%, rgba(251,251,248,1)); border: 1px solid rgba(132,140,160,.16); }
-    .wheel-wrap::before, .wheel-wrap::after { content: ''; position: absolute; left: 0; right: 0; height: 56px; pointer-events: none; z-index: 2; }
-    .wheel-wrap::before { top: 0; background: linear-gradient(to bottom, rgba(251,251,248,.98), rgba(251,251,248,0)); }
-    .wheel-wrap::after { bottom: 0; background: linear-gradient(to top, rgba(251,251,248,.98), rgba(251,251,248,0)); }
-    .wheel-center { position: absolute; left: 0; right: 0; top: 50%; height: 38px; margin-top: -19px; border-top: 1px solid rgba(91,95,214,.24); border-bottom: 1px solid rgba(91,95,214,.24); background: rgba(91,95,214,.06); z-index: 1; }
-    .wheel { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 66px 0; }
-    .wheel::-webkit-scrollbar { display: none; }
-    .wheel-item { height: 38px; display: flex; align-items: center; justify-content: center; scroll-snap-align: center; color: #6a7287; font-size: 15px; font-weight: 600; }
-    .wheel-item.selected { color: #5b5fd6; font-size: 18px; font-weight: 800; }
-    .complete-btn { width: 100%; padding: 18px; font-size: 17px; font-weight: 700; border: none; border-radius: 14px; background: linear-gradient(135deg, #5b5fd6, #7b86ff); color: #ffffff; box-shadow: 0 2px 10px rgba(91,95,214,.18); }
+    .set-row input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--accent);
+    }
+    .set-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent-strong);
+    }
+    .set-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .set-weight-input,
+    .set-reps-input {
+      width: 100%;
+      padding: 10px 8px;
+      border-radius: 8px;
+      border: 1px solid var(--input-border);
+      font-size: 15px;
+      background: transparent;
+      color: var(--fg);
+    }
+    .set-weight-input::placeholder,
+    .set-reps-input::placeholder {
+      color: var(--accent-soft);
+      opacity: 0.7;
+    }
+    .complete-btn {
+      width: 100%;
+      padding: 18px;
+      font-size: 17px;
+      font-weight: 700;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), #7b86ff);
+      color: #ffffff;
+      box-shadow: 0 2px 10px var(--btn-shadow);
+    }
     .complete-btn:active { transform: scale(.99); }
-    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(24,28,38,.48); align-items: center; justify-content: center; padding: 16px; z-index: 999; }
-    .modal { width: 100%; max-width: 520px; background: #ffffff; border-radius: 16px; padding: 18px; border: 1px solid rgba(132,140,160,.16); box-shadow: 0 14px 40px rgba(24,28,38,.16); }
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--modal-backdrop);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 999;
+    }
+    .modal {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 14px 40px var(--card-shadow);
+      color: var(--fg);
+    }
     .modal h2 { margin: 0 0 6px; }
-    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
     .modal-actions.single { grid-template-columns: 1fr; }
-    .secondary { background: #f2f2f2; color: #1d2433; border: 1px solid rgba(132,140,160,.16); }
-    .primary { background: linear-gradient(135deg, #5b5fd6, #7b86ff); color: #ffffff; border: 1px solid rgba(91,95,214,.18); }
-    .small { font-size: 13px; color: #5a6784; }
+    .secondary {
+      background: var(--secondary-bg);
+      color: var(--secondary-fg);
+      border: 1px solid var(--card-border);
+    }
+    .primary {
+      background: linear-gradient(135deg, var(--accent), #7b86ff);
+      color: #ffffff;
+      border: 1px solid rgba(91,95,214,.18);
+    }
+    .small { font-size: 13px; color: var(--accent-soft); }
   </style>
 </head>
 <body>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <span id="themeIcon">⚙️</span>
+    <span class="mode-label" id="themeLabel">SYSTEM</span>
+  </button>
 
   <div class="card">
     <label class="label" for="daySelect">Workout day</label>
@@ -69,7 +305,7 @@
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal">
       <h2>Workout complete</h2>
-      <div class="subtitle" style="margin-bottom:0;">Send the session log or copy it first.</div>
+      <div class="small" style="margin-bottom:0;">Send the session log or copy it first.</div>
       <div class="modal-actions">
         <button class="primary" id="sendEmailBtn">Send email</button>
         <button class="secondary" id="copyTextBtn">Copy text</button>
@@ -100,9 +336,10 @@ const modalBackdrop = document.getElementById('modalBackdrop');
 const sendEmailBtn = document.getElementById('sendEmailBtn');
 const copyTextBtn = document.getElementById('copyTextBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const themeLabel = document.getElementById('themeLabel');
 let latestLog = '';
-
-const weights = Array.from({length: 61}, (_, i) => i * 5);
 
 plan.forEach(p => {
   const o = document.createElement('option');
@@ -112,44 +349,9 @@ plan.forEach(p => {
 });
 
 function checkId(bi, si){ return `block${bi}_set${si}`; }
-function wheelId(bi, si){ return `block${bi}_set${si}_wheel`; }
-function labelId(bi, si){ return `block${bi}_set${si}_label`; }
-
-function renderWheel(bi, si) {
-  return `
-    <div class="wheel-wrap">
-      <div class="wheel-center"></div>
-      <div class="wheel" id="${wheelId(bi, si)}">
-        ${weights.map(w => `<div class="wheel-item" data-value="${w}">${w}</div>`).join('')}
-      </div>
-    </div>
-  `;
-}
-
-function bindWheel(wheelEl, labelEl) {
-  const items = [...wheelEl.querySelectorAll('.wheel-item')];
-  const selectNearest = () => {
-    const center = wheelEl.scrollTop + wheelEl.clientHeight / 2;
-    let best = items[0], bestDist = Infinity;
-    items.forEach(item => {
-      const mid = item.offsetTop + item.offsetHeight / 2;
-      const dist = Math.abs(mid - center);
-      if (dist < bestDist) { bestDist = dist; best = item; }
-    });
-    items.forEach(i => i.classList.remove('selected'));
-    best.classList.add('selected');
-    labelEl.textContent = best.dataset.value;
-  };
-  wheelEl.addEventListener('scroll', () => {
-    clearTimeout(wheelEl._t);
-    wheelEl._t = setTimeout(selectNearest, 80);
-  });
-  setTimeout(() => {
-    const target = items.find(i => i.dataset.value === '0') || items[0];
-    wheelEl.scrollTop = target.offsetTop - wheelEl.clientHeight / 2 + target.offsetHeight / 2;
-    selectNearest();
-  }, 0);
-}
+function weightId(bi, si){ return `block${bi}_set${si}_weight`; }
+function repsId(bi, si){ return `block${bi}_set${si}_reps`; }
+function noteId(bi){ return `block${bi}_note`; }
 
 function render(day) {
   const p = plan.find(x => x.day === day) || plan[0];
@@ -157,33 +359,56 @@ function render(day) {
   blocksContainer.innerHTML = p.blocks.map((block, bi) => `
     <div class="card">
       <div class="block-name">${block.name}<span class="rep-note">${block.reps}</span></div>
+      <input
+        type="text"
+        id="${noteId(bi)}"
+        class="exercise-note-input"
+        placeholder="Notes for this exercise (optional)"
+      >
       ${Array.from({length:block.sets}, (_, si) => `
         <div class="set-row">
           <input type="checkbox" id="${checkId(bi, si)}">
           <div class="set-label">Set ${si+1}</div>
-          <div>${renderWheel(bi, si)}</div>
-          <div class="weight-value" id="${labelId(bi, si)}">0</div>
+          <div class="set-inputs">
+            <input
+              class="set-weight-input"
+              id="${weightId(bi, si)}"
+              type="number"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              min="0"
+              step="5"
+              placeholder="lbs"
+            >
+            <input
+              class="set-reps-input"
+              id="${repsId(bi, si)}"
+              type="number"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              min="0"
+              step="1"
+              placeholder="reps"
+            >
+          </div>
         </div>
       `).join('')}
     </div>
   `).join('');
   cooldownList.innerHTML = p.cooldown.map(s => `<div class="line"><div class="text">${s}</div></div>`).join('');
-
-  p.blocks.forEach((block, bi) => {
-    for (let si = 0; si < block.sets; si++) {
-      const wheelEl = document.getElementById(wheelId(bi, si));
-      const labelEl = document.getElementById(labelId(bi, si));
-      bindWheel(wheelEl, labelEl);
-    }
-  });
 }
 
 daySelect.addEventListener('change', () => render(daySelect.value));
 render('Monday');
 
 function selectedWeight(bi, si) {
-  const label = document.getElementById(labelId(bi, si));
-  return label ? label.textContent : '0';
+  const el = document.getElementById(weightId(bi, si));
+  return el && el.value ? el.value : '0';
+}
+
+function selectedReps(bi, si) {
+  const el = document.getElementById(repsId(bi, si));
+  return el && el.value ? el.value : '0';
 }
 
 function buildLogText() {
@@ -197,10 +422,17 @@ function buildLogText() {
   let totalSets = 0, completedSets = 0;
   p.blocks.forEach((block, bi) => {
     log += '\n' + block.name + ' (' + block.reps + ')\n';
+    const noteEl = document.getElementById(noteId(bi));
+    const note = noteEl && noteEl.value ? noteEl.value.trim() : '';
+    if (note) {
+      log += '  Note: ' + note + '\n';
+    }
     for (let si = 0; si < block.sets; si++) {
       const checked = document.getElementById(checkId(bi, si)).checked;
       const weight = selectedWeight(bi, si);
-      log += (checked ? '  [✓]' : '  [ ]') + ' Set ' + (si+1) + ': ' + weight + ' lbs\n';
+      const reps = selectedReps(bi, si);
+      log += (checked ? '  [✓]' : '  [ ]') +
+        ' Set ' + (si+1) + ': ' + weight + ' lbs x ' + reps + ' reps\n';
       totalSets++;
       if (checked) completedSets++;
     }
@@ -224,12 +456,53 @@ sendEmailBtn.addEventListener('click', () => {
 });
 
 copyTextBtn.addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(latestLog || buildLogText()); copyTextBtn.textContent = 'Copied'; setTimeout(() => copyTextBtn.textContent = 'Copy text', 1200); }
-  catch(e) { alert('Copy failed on this device.'); }
+  try {
+    await navigator.clipboard.writeText(latestLog || buildLogText());
+    copyTextBtn.textContent = 'Copied';
+    setTimeout(() => copyTextBtn.textContent = 'Copy text', 1200);
+  } catch(e) {
+    alert('Copy failed on this device.');
+  }
 });
 
 closeModalBtn.addEventListener('click', () => modalBackdrop.style.display = 'none');
-modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) modalBackdrop.style.display = 'none'; });
+modalBackdrop.addEventListener('click', (e) => {
+  if (e.target === modalBackdrop) modalBackdrop.style.display = 'none';
+});
+
+const htmlEl = document.documentElement;
+const storedTheme = localStorage.getItem('theme');
+
+if (storedTheme === 'dark' || storedTheme === 'light' || storedTheme === 'system') {
+  htmlEl.setAttribute('data-theme', storedTheme);
+}
+
+function updateToggleUI() {
+  const current = htmlEl.getAttribute('data-theme') || 'system';
+  if (current === 'system') {
+    themeIcon.textContent = '⚙️';
+    themeLabel.textContent = 'SYSTEM';
+  } else if (current === 'dark') {
+    themeIcon.textContent = '🌙';
+    themeLabel.textContent = 'DARK';
+  } else {
+    themeIcon.textContent = '☀️';
+    themeLabel.textContent = 'LIGHT';
+  }
+}
+
+updateToggleUI();
+
+themeToggle.addEventListener('click', () => {
+  const current = htmlEl.getAttribute('data-theme') || 'system';
+  let next = 'system';
+  if (current === 'system') next = 'dark';
+  else if (current === 'dark') next = 'light';
+  else next = 'system';
+  htmlEl.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  updateToggleUI();
+});
 </script>
 </body>
 </html>
